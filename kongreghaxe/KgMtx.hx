@@ -6,6 +6,8 @@ package kongreghaxe;
  */
 
 
+typedef Tag = String;
+
 typedef PurchaseItem = {
 	var identifier	: String;
 	var data		: String;
@@ -23,9 +25,29 @@ typedef InventoryItem = {
 	var remaining_uses	: Int;
 }
 
+typedef ItemData = {
+	var id:Int;
+	var identifier:String;
+	var name:String;
+	var description:String;
+	var price:Int;
+	var tags:Array<Tag>;
+	var image_url:String;
+}
+
 typedef InventoryList = {
 	var success : Bool;
 	var data	: Array<InventoryItem>;
+}
+
+typedef ItemDataList = {
+	var success : Bool;
+	var data	: Array<ItemData>;
+}
+
+typedef ItemUseResult = {
+	var success:Bool;
+	var id:Int;
 }
 
 @:fakeEnum(String) enum PurchaseMethod
@@ -45,6 +67,15 @@ extern class KgMtx
 	@:overload(			function(items:Array<PurchaseItem>,	purchaseCallback:Result->Void):Void{})
 	@:overload(			function(items:Array<String>, 		purchaseCallback:Result->Void):Void{})
 	public function purchaseItems(items:Array<Dynamic>, 	purchaseCallback:Result->Void):Void;
+
+	/**
+	 * Request item definitions from the server
+	 * @param	username: The username to request inventory for, or null for the current player.
+	 * @param	itemListCallback:  The callback function with a single argument which has two fields:
+				 * 	success:Boolean - True if successful
+				 * 	data:Array - List of item instance Objects (if successful)
+	 */
+	public function requestItemList(tags:Array<Tag>, itemListCallback:ItemDataList->Void):Void;
 	
 	/**
 	 * Requesting User Item Instances
@@ -61,5 +92,5 @@ extern class KgMtx
 	 */
 	public function showKredPurchaseDialog(purchaseMethod:PurchaseMethod): Void;
 	
-	
+	public function useItemInstance(itemInstanceId:Int, callback:ItemUseResult->Void):Void;
 }

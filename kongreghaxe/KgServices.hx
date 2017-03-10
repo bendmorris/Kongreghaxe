@@ -30,6 +30,8 @@ typedef KgInvitation = {
 @:native("kongregate.services")
 extern class KgServices
 {
+	public function addEventListener(key:String, callback:Void->Void):Void;
+
 	/* Authentication API*/
 	
 	/**

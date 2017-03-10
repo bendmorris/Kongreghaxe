@@ -6,7 +6,7 @@ import js.Lib;
  * @author bd
  */
 
-@:native ("window.parent.kongregate")
+@:native("window.parent.kongregate")
 extern class KongregateAPI
 {
 	public var services : KgServices;
